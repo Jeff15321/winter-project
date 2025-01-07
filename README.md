@@ -36,6 +36,7 @@ npm install
 ```
 
 to run mongoDB locally, remember to create a .env file with the MONGODB_URI variable.
+also go into atlas and add your ip address to the whitelist
 
 
 to run the server:
@@ -51,6 +52,6 @@ to run the frontend:
 ```
 cd frontend
 npm run dev
-```
+``` 
 
 //currently, all the api are in localhost
