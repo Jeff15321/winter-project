@@ -53,3 +53,4 @@ cd frontend
 npm run dev
 ```
 
+//currently, all the api are in localhost
