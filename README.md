@@ -42,7 +42,7 @@ also go into atlas and add your ip address to the whitelist
 to run the server:
 
 ```
-cd backend/data_api
+cd backend
 python manage.py runserver
 ```
 
