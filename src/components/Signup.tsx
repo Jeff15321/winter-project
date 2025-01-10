@@ -3,9 +3,10 @@ import { User, Lock, Mail } from 'lucide-react';
 
 interface SignupProps {
     onSignup: (userData: { email: string; id: string }) => void;
+    onLoginClick: () => void; 
 }
 
-const Signup: React.FC<SignupProps> = ({ onSignup }) => {
+const Signup: React.FC<SignupProps> = ({ onSignup, onLoginClick }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -99,10 +100,26 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
                     >
                         {isLoading ? 'Creating Account...' : 'Sign Up'}
                     </button>
+
+                    <div className="text-center space-y-4">
+                        <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
+                            Forgot your password?
+                        </a>
+                        
+                        <div className="border-t border-gray-200 pt-4">
+                            <button
+                                type="button"
+                                onClick={onLoginClick} // Call the onLoginClick prop
+                                className="text-sm text-blue-600 hover:text-blue-500"
+                            >
+                                Already have an account? Log in
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     );
 };
 
-export default Signup; 
+export default Signup;

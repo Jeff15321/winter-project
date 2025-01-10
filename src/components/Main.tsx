@@ -52,7 +52,7 @@ const Main: React.FC = () => {
 
     if (!isAuthenticated) {
         return isSignup ? (
-            <Signup onSignup={handleSignup} />
+            <Signup onSignup={handleSignup} onLoginClick={() => setIsSignup(false)} />
         ) : (
             <Login 
                 onLogin={handleLogin} 
