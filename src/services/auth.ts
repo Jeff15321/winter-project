@@ -10,7 +10,7 @@ export const checkLogin = async (email: string, password: string) => {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+        throw new Error(data.error || 'Invalid email or password');
     }
 
     return data;

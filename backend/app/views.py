@@ -5,9 +5,8 @@ from .utils.utils import process_pipeline
 from pymongo import MongoClient
 from django.conf import settings
 from .models import User
-import jwt
 from datetime import datetime, timedelta
-from bcrypt import hashpw, gensalt
+from bcrypt import hashpw, gensalt, checkpw
 from bson.objectid import ObjectId
 
 class ExecutePipelineView(APIView):
@@ -46,22 +45,18 @@ class SignupView(APIView):
                 'created_at': datetime.now()
             })
 
-            # Create a Django user
-            user = User.objects.create_user(
-                username=email,
-                email=email,
-                password=hashed_password,
-                mongodb_id=str(mongo_user.inserted_id)  # Save the MongoDB ID
-            )
+            user_id = str(mongo_user.inserted_id)
 
-            token = jwt.encode({'user_id': str(user.id), 'exp': datetime.utcnow() + timedelta(days=1)},
-                               'your_secret_key', algorithm='HS256')
+            # token = jwt.encode({'user_id': str(user_id), 'exp': datetime.utcnow() + timedelta(days=1)},
+            #                             'secret_key', algorithm='HS256')
+
+            token = "temp_token"
 
             return Response({
                 'token': token,
                 'user': {
-                    'email': user.email,
-                    'id': user.id
+                    'email': email,
+                    'id': user_id
                 }
             })
 
@@ -91,18 +86,19 @@ class LoginView(APIView):
             
             if not user_data:
                 return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-            print(user_data)
-            # Return user data
+
+            if not checkpw(password.encode('utf-8'), user_data['password']):
+                return Response({'error': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)
             
-            token = jwt.encode({'user_id': str(user_data['_id']), 'exp': datetime.utcnow() + timedelta(days=1)},
-                               'your_secret_key', algorithm='HS256')
+            token = "temp_token"
+            # token = jwt.encode({'user_id': str(user_data['_id']), 'exp': datetime.utcnow() + timedelta(days=1)},
+            #                    'secret_key', algorithm='HS256')
 
             return Response({
                 'token': token,
                 'user': {
                     'email': user_data['email'],
                     'id': str(user_data['_id']),
-                    'password': user_data['password']
                 }
             });
 

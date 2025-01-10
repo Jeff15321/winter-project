@@ -40,9 +40,7 @@ const Main: React.FC = () => {
     }, []);
 
     const handleLogin = async (user: object) => {
-        // Add your authentication logic here
-        // For now, just simulate a successful login
-        
+       
         setIsAuthenticated(true);
     };
 
